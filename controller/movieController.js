@@ -1,8 +1,5 @@
-const asyncHandler = require("express-async-handler");
-const mongoose = require("mongoose");
 const Movie = require("../model/movieModel");
 const logger = require("../util/logger");
-
 
 // controller function to view all the movies list from db.
 const viewMovie = async (req, res) => {
