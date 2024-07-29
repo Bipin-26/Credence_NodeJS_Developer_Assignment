@@ -1,3 +1,4 @@
+const upload = require("../middleware/multerConfig");
 const Movie = require("../model/movieModel");
 const logger = require("../util/logger");
 
@@ -23,7 +24,8 @@ const viewMovie = async (req, res) => {
 // controller function to add new movie to db
 const addMovie = async (req, res) => {
   try {
-    const { name, img, summary } = req.body;
+    const { name, summary } = req.body;
+    const img = req.file.path;
     const movieExists = await Movie.findOne({ name: name });
     if (movieExists) {
       logger.info("Movie already exists");
@@ -37,6 +39,7 @@ const addMovie = async (req, res) => {
     }
   } catch (err) {
     logger.error(err);
+    console.log(err);
     res.status(400).send("Something went wrong");
   }
 };
@@ -66,6 +69,7 @@ const updateMovie = async (req, res) => {
     }
   } catch (err) {
     logger.error(err);
+    // console
     res.status(400).send("Something went wrong");
   }
 };
