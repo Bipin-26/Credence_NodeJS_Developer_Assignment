@@ -11,19 +11,23 @@ const errorLogs = winston.format((info) => {
 });
 
 const fileRotate = new winston.transports.DailyRotateFile({
-  filename: "combined-%DATE%.log",
+  level: "info",
+  filename: "info-%DATE%.log",
   dirname: "logs/%DATE%",
   datePattern: "YYYY-MM-DD",
   maxFiles: "1d",
+  // auditFile:'logs/',
   maxSize: "2m",
 });
 
 const errorFileRotate = new winston.transports.DailyRotateFile({
+  level: "error",
   filename: "error-%DATE%.log",
   dirname: "logs/%DATE%",
   datePattern: "YYYY-MM-DD",
   maxFiles: "1d",
   maxSize: "2m",
+  auditFile: false,
   format: combine(errorLogs(), timestamp(), json()),
 });
 

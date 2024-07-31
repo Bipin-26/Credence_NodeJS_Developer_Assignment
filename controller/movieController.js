@@ -25,22 +25,28 @@ const viewMovie = async (req, res) => {
 const addMovie = async (req, res) => {
   try {
     const { name, summary } = req.body;
-    const img = req.file.path;
+    const img = req.file;
+    console.log(req.body);
+    console.log();
     const movieExists = await Movie.findOne({ name: name });
     if (movieExists) {
       logger.info("Movie already exists");
       res.status(400);
-      res.send("Movie already exists");
+      return res.send("Movie already exists");
     } else {
-      const movie = await Movie.create({ name, img, summary });
+      await Movie.create({ name, summary, img }).then((result) =>
+        console.log("RESULT ===> ", result)
+      );
+      // console.log(req.body.name, req.body.summary);
       logger.info({ message: "Movie added successfully", movie });
       res.status(201);
-      res.send({ message: "Movie added successfully", movie });
+      // res.send({ file: req.body, img: req.file });
+      return res.send({ message: "Movie added successfully", movie });
     }
   } catch (err) {
     logger.error(err);
     console.log(err);
-    res.status(400).send("Something went wrong");
+    return res.status(400).send("Something went wrong");
   }
 };
 

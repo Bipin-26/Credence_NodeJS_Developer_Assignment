@@ -7,7 +7,7 @@ const {
   updateMovie,
   deleteMovie,
 } = require("../controller/movieController");
-const upload = require("../middleware/multerConfig");
+const upload = require("../middleware/multerConfiguration");
 
 // wrapped all the CRUD operation in single endpoint '/' and passed the controller function based on the CRUD operation to be performed
 router
