@@ -1,4 +1,3 @@
-const upload = require("../middleware/multerConfig");
 const Movie = require("../model/movieModel");
 const logger = require("../util/logger");
 

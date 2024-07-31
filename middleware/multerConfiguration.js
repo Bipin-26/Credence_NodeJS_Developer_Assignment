@@ -1,5 +1,6 @@
 const multer = require("multer");
 const { GridFsStorage } = require("multer-gridfs-storage");
+const logger = require("../util/logger");
 
 // const storage = new GridFsStorage({
 //   url: process.env.LOCALHOST_MONGO_URI,
@@ -21,4 +22,15 @@ const { GridFsStorage } = require("multer-gridfs-storage");
 
 const storage = multer.memoryStorage({});
 
-module.exports = multer({ storage });
+module.exports = multer({
+  storage,
+  limits: { fileSize: 1024 * 1024 },
+  fileFilter: (req, file, callback) => {
+    if (file.mimetype === "image/jpeg" || file.mimetype === "image/png") {
+      callback(null, true);
+    } else {
+      logger.error({ message: "Invalid image type" });
+      callback(null, false);
+    }
+  },
+});
